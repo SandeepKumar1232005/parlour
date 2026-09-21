@@ -6,39 +6,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 
-function InstagramIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      viewBox="0 0 24 24"
-    >
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
-
-function FacebookIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      viewBox="0 0 24 24"
-    >
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
-  );
-}
+import { SocialLinksGroup } from "@/components/ui/SocialLinks";
 import {
   business,
   hasPhone,
@@ -97,40 +65,8 @@ export function Footer() {
             </p>
 
             {/* Social Links */}
-            <div className="mt-6 flex gap-3">
-              {hasSocial("instagram") && (
-                <a
-                  href={business.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 transition-all hover:border-champagne/30 hover:bg-champagne/10 hover:text-champagne"
-                  aria-label="Follow on Instagram"
-                >
-                  <InstagramIcon className="h-4 w-4" />
-                </a>
-              )}
-              {hasSocial("facebook") && (
-                <a
-                  href={business.social.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 transition-all hover:border-champagne/30 hover:bg-champagne/10 hover:text-champagne"
-                  aria-label="Follow on Facebook"
-                >
-                  <FacebookIcon className="h-4 w-4" />
-                </a>
-              )}
-              {hasWhatsApp() && (
-                <a
-                  href={getWhatsAppLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 transition-all hover:border-whatsapp/30 hover:bg-whatsapp/10 hover:text-whatsapp"
-                  aria-label="Chat on WhatsApp"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                </a>
-              )}
+            <div className="mt-8">
+              <SocialLinksGroup variant="dark" />
             </div>
           </div>
 

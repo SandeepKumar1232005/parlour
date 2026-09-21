@@ -2,15 +2,19 @@ import type { Metadata } from "next";
 import { AnimatedCard, Button } from "@/components/ui";
 import { LocationSection } from "@/components/sections/LocationSection";
 import { MapPin, Phone, MessageCircle, Clock, Mail, Send } from "lucide-react";
+import { InstagramIcon, FacebookIcon } from "@/components/ui/icons";
 import {
   business,
   hasPhone,
   hasWhatsApp,
   hasAddress,
   hasHours,
+  hasSocial,
   getPhoneLink,
   getWhatsAppLink,
   getFullAddress,
+  getInstagramLink,
+  getFacebookLink,
 } from "@/config/business";
 
 export const metadata: Metadata = {
@@ -233,6 +237,52 @@ export default function ContactPage() {
                           className="mt-1 text-sm text-text-muted hover:text-champagne-dark"
                         >
                           {business.email}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {hasSocial("instagram") && (
+                  <div className="rounded-xl border border-border bg-white p-5">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-champagne/10">
+                        <InstagramIcon className="h-4 w-4 text-champagne-dark" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-charcoal">
+                          Instagram
+                        </h3>
+                        <a
+                          href={getInstagramLink()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 text-sm text-text-muted hover:text-champagne-dark"
+                        >
+                          Follow us on Instagram
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {hasSocial("facebook") && (
+                  <div className="rounded-xl border border-border bg-white p-5">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-champagne/10">
+                        <FacebookIcon className="h-4 w-4 text-champagne-dark" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-charcoal">
+                          Facebook
+                        </h3>
+                        <a
+                          href={getFacebookLink()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 text-sm text-text-muted hover:text-champagne-dark"
+                        >
+                          Visit our page
                         </a>
                       </div>
                     </div>

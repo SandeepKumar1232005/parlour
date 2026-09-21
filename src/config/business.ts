@@ -17,8 +17,8 @@ export const business = {
   shortDescription: "Professional beauty services in Coimbatore.",
 
   // ─── Contact ─────────────────────────────────────────
-  phone: "", // e.g. "+919500000000"
-  whatsapp: "", // e.g. "919500000000" (without +)
+  phone: "+919363499428", // e.g. "+919500000000"
+  whatsapp: "919363499428", // e.g. "919500000000" (without +)
   email: "", // e.g. "hello@example.com"
 
   // ─── Location ────────────────────────────────────────
@@ -118,4 +118,20 @@ export function getFullAddress(): string {
     business.address.pin,
   ].filter(Boolean);
   return parts.join(", ");
+}
+
+export function hasEmail(): boolean {
+  return business.email.length > 0;
+}
+
+export function getEmailLink(): string {
+  return business.email ? `mailto:${business.email}` : "#";
+}
+
+export function getInstagramLink(): string {
+  return business.social.instagram || "#";
+}
+
+export function getFacebookLink(): string {
+  return business.social.facebook || "#";
 }

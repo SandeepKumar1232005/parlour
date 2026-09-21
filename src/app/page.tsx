@@ -5,6 +5,7 @@ import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { BridalSection } from "@/components/sections/BridalSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { LocationSection } from "@/components/sections/LocationSection";
+import { InstagramFollow } from "@/components/sections/InstagramFollow";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { business } from "@/config/business";
 
@@ -43,6 +44,9 @@ export default function HomePage() {
               "@type": "City",
               name: business.address.city,
             },
+            sameAs: [business.social.instagram, business.social.facebook].filter(Boolean).length > 0
+              ? [business.social.instagram, business.social.facebook].filter(Boolean)
+              : undefined,
           }),
         }}
       />
@@ -54,6 +58,7 @@ export default function HomePage() {
       <BridalSection />
       <LocationSection />
       <FAQSection />
+      <InstagramFollow />
       <FinalCTA />
     </>
   );
