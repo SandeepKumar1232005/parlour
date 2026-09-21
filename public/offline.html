@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline | Parlour</title>
+  <style>
+    :root {
+      --bg: #FAF8F5;
+      --card-bg: #FFFFFF;
+      --charcoal: #1C1C1E;
+      --champagne: #C5A880;
+      --champagne-dark: #A38257;
+      --muted: #71717A;
+      --border: rgba(0, 0, 0, 0.08);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      text-align: center;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+    .icon-wrap {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(197, 168, 128, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: var(--champagne-dark);
+    }
+    .icon-wrap svg {
+      width: 32px;
+      height: 32px;
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--champagne-dark);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      min-height: 44px;
+    }
+    .btn-primary {
+      background: var(--champagne);
+      color: #1C1C1E;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--champagne-dark);
+      color: #FFFFFF;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--charcoal);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+        <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+        <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+      </svg>
+    </div>
+    <div class="eyebrow">Connection Lost</div>
+    <h1>You&apos;re Offline</h1>
+    <p>Some information may be unavailable until your connection returns. You can still access your previously visited pages.</p>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="window.location.reload()">Try Again</button>
+      <a href="/" class="btn btn-secondary">Go to Home</a>
+    </div>
+  </div>
+</body>
+</html>

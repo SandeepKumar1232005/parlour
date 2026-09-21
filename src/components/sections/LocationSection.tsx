@@ -1,7 +1,8 @@
 "use client";
 
-import { MapPin, Phone, Clock, MessageCircle, Mail, Calendar } from "lucide-react";
+import { MapPin, Phone, Clock, MessageCircle, Mail, Calendar, WifiOff, ExternalLink } from "lucide-react";
 import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
+import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 import {
   business,
   hasAddress,
@@ -16,12 +17,25 @@ import {
   getFullAddress,
   getMapsEmbedUrl,
   getDirectionsUrl,
+  getGoogleMapsUrl,
 } from "@/config/business";
 
 export function LocationSection() {
+  const { isOnline, showNetworkNotice } = useNetworkStatus();
   const embedUrl = getMapsEmbedUrl();
   const directionsUrl = getDirectionsUrl();
+  const googleMapsUrl = getGoogleMapsUrl();
   const address = getFullAddress();
+
+  const handleWhatsAppClick = (e?: React.MouseEvent) => {
+    if (!isOnline) {
+      if (e) e.preventDefault();
+      showNetworkNotice(
+        "WhatsApp requires an active internet connection. Please check your connection and try again.",
+        "warning"
+      );
+    }
+  };
 
   return (
     <section className="section-padding bg-ivory" id="location">
@@ -42,7 +56,30 @@ export function LocationSection() {
           <div className="order-2 lg:order-1 flex flex-col space-y-4">
             <AnimatedCard>
               <div className="overflow-hidden rounded-2xl border border-border bg-cream shadow-sm">
-                {embedUrl ? (
+                {!isOnline ? (
+                  <div className="flex h-[320px] sm:h-[380px] lg:h-[480px] w-full flex-col items-center justify-center p-6 text-center">
+                    <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-champagne/15 text-champagne-dark">
+                      <WifiOff className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <h4 className="font-display text-lg font-semibold text-charcoal">
+                      Map unavailable while offline
+                    </h4>
+                    <p className="mt-1 max-w-xs text-xs leading-relaxed text-text-muted">
+                      Live interactive Google Maps requires internet connectivity.
+                    </p>
+                    {googleMapsUrl && (
+                      <a
+                        href={googleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-champagne-dark hover:underline"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Open Google Maps when online
+                      </a>
+                    )}
+                  </div>
+                ) : embedUrl ? (
                   <iframe
                     src={embedUrl}
                     width="100%"
@@ -139,6 +176,7 @@ export function LocationSection() {
                       external
                       variant="whatsapp"
                       className="flex-1 min-h-[44px]"
+                      onClick={handleWhatsAppClick}
                     >
                       <MessageCircle className="h-4 w-4" />
                       WhatsApp Us

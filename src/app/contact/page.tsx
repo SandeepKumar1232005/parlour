@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { AnimatedCard, Button } from "@/components/ui";
+import { AnimatedCard } from "@/components/ui";
+import { ContactForm } from "@/components/forms/ContactForm";
 import { LocationSection } from "@/components/sections/LocationSection";
-import { MapPin, Phone, MessageCircle, Clock, Mail, Send } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Clock, Mail } from "lucide-react";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/icons";
 import {
   business,
@@ -81,91 +82,7 @@ export default function ContactPage() {
           <div className="grid gap-10 lg:grid-cols-5">
             {/* Contact Form */}
             <AnimatedCard className="lg:col-span-3">
-              <form className="rounded-2xl border border-border bg-white p-6 shadow-sm sm:p-8">
-                <h2 className="font-display text-2xl font-semibold text-charcoal">
-                  Send Us a Message
-                </h2>
-                <p className="mt-1 text-sm text-text-muted">
-                  Fill in the form and we will get back to you shortly.
-                </p>
-
-                <div className="mt-6 space-y-4">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-text-body">
-                        Name <span className="text-error">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="contact-name"
-                        required
-                        placeholder="Your name"
-                        className="w-full rounded-xl border border-border bg-ivory px-4 py-3 text-sm text-text-body placeholder:text-text-light transition-colors focus:border-champagne focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="contact-phone" className="mb-1.5 block text-sm font-medium text-text-body">
-                        Phone <span className="text-error">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        id="contact-phone"
-                        required
-                        placeholder="Your mobile number"
-                        className="w-full rounded-xl border border-border bg-ivory px-4 py-3 text-sm text-text-body placeholder:text-text-light transition-colors focus:border-champagne focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-text-body">
-                      Email <span className="text-xs text-text-light">(optional)</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="contact-email"
-                      placeholder="Your email"
-                      className="w-full rounded-xl border border-border bg-ivory px-4 py-3 text-sm text-text-body placeholder:text-text-light transition-colors focus:border-champagne focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="contact-subject" className="mb-1.5 block text-sm font-medium text-text-body">
-                      Subject
-                    </label>
-                    <select
-                      id="contact-subject"
-                      className="w-full rounded-xl border border-border bg-ivory px-4 py-3 text-sm text-text-body transition-colors focus:border-champagne focus:outline-none"
-                    >
-                      <option value="">Select a topic</option>
-                      <option value="appointment">Appointment Enquiry</option>
-                      <option value="bridal">Bridal Enquiry</option>
-                      <option value="services">Service Information</option>
-                      <option value="pricing">Pricing</option>
-                      <option value="feedback">Feedback</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-text-body">
-                      Message <span className="text-error">*</span>
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      rows={4}
-                      required
-                      placeholder="How can we help you?"
-                      className="w-full resize-none rounded-xl border border-border bg-ivory px-4 py-3 text-sm text-text-body placeholder:text-text-light transition-colors focus:border-champagne focus:outline-none"
-                    />
-                  </div>
-
-                  <Button type="submit" variant="primary" className="w-full">
-                    <Send className="h-4 w-4" />
-                    Send Message
-                  </Button>
-                </div>
-              </form>
+              <ContactForm />
             </AnimatedCard>
 
             {/* Contact Info Sidebar */}

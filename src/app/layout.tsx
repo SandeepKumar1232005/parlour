@@ -5,6 +5,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomBar } from "@/components/layout/MobileBottomBar";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { OfflineIndicator } from "@/components/ui/OfflineIndicator";
+import { ScrollRestorer } from "@/components/providers/ScrollRestorer";
+import { ServiceWorkerRegistration } from "@/components/providers/ServiceWorkerRegistration";
 import { business } from "@/config/business";
 
 const cormorant = Cormorant_Garamond({
@@ -34,6 +37,7 @@ export const metadata: Metadata = {
     template: `%s | ${business.name}`,
   },
   description: business.description,
+  manifest: "/manifest.json",
   keywords: [
     "beauty parlour",
     "beauty salon",
@@ -71,11 +75,14 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-ivory text-text-body antialiased">
+        <ScrollRestorer />
+        <ServiceWorkerRegistration />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         <MobileBottomBar />
         <WhatsAppFloat />
+        <OfflineIndicator />
       </body>
     </html>
   );

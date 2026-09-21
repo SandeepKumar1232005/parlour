@@ -119,7 +119,7 @@ interface ButtonProps {
   external?: boolean;
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   type?: "button" | "submit";
   disabled?: boolean;
   ariaLabel?: string;

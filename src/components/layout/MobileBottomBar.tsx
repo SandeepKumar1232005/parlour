@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Home, Scissors, MessageCircle, Calendar, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { hasPhone, hasWhatsApp, getPhoneLink, getWhatsAppLink } from "@/config/business";
+import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 
 const barItems = [
   { label: "Home", href: "/", icon: Home, type: "link" as const },
@@ -14,6 +15,8 @@ const barItems = [
 ];
 
 export function MobileBottomBar() {
+  const { isOnline, showNetworkNotice } = useNetworkStatus();
+
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-[40] border-t border-border bg-white/95 backdrop-blur-xl md:hidden safe-bottom"
@@ -67,6 +70,16 @@ export function MobileBottomBar() {
             </>
           );
 
+          const handleAnchorClick = (e: React.MouseEvent) => {
+            if (item.type === "whatsapp" && !isOnline) {
+              e.preventDefault();
+              showNetworkNotice(
+                "WhatsApp requires an active internet connection. Please check your connection and try again.",
+                "warning"
+              );
+            }
+          };
+
           if (isExternal || item.type === "call") {
             return (
               <a
@@ -74,6 +87,7 @@ export function MobileBottomBar() {
                 href={href}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
+                onClick={handleAnchorClick}
                 className={className}
                 aria-label={item.label}
               >

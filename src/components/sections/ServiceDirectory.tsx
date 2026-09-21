@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Search, Sparkles, Scissors, Crown, Palette, Hand, Flower2, Leaf, ArrowRight, MessageCircle, Calendar } from "lucide-react";
-import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
-import { getEnabledCategories, Service, ServiceCategory } from "@/config/services";
+import { AnimatedCard, Button } from "@/components/ui";
+import { getEnabledCategories, Service } from "@/config/services";
 import { getWhatsAppLink } from "@/config/business";
 import { cn } from "@/lib/utils";
 
@@ -12,9 +12,43 @@ const iconMap: Record<string, React.ElementType> = {
   Scissors, Sparkles, Crown, Palette, Hand, Flower2, Leaf,
 };
 
+const SEARCH_KEY = "parlour_services_search";
+const CATEGORY_KEY = "parlour_services_category";
+
 export function ServiceDirectory() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>("ALL");
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return sessionStorage.getItem(SEARCH_KEY) || "";
+      } catch {}
+    }
+    return "";
+  });
+
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return sessionStorage.getItem(CATEGORY_KEY) || "ALL";
+      } catch {}
+    }
+    return "ALL";
+  });
+
+  // Save filter state on update
+  useEffect(() => {
+    try {
+      if (searchQuery) {
+        sessionStorage.setItem(SEARCH_KEY, searchQuery);
+      } else {
+        sessionStorage.removeItem(SEARCH_KEY);
+      }
+      if (activeCategory !== "ALL") {
+        sessionStorage.setItem(CATEGORY_KEY, activeCategory);
+      } else {
+        sessionStorage.removeItem(CATEGORY_KEY);
+      }
+    } catch {}
+  }, [searchQuery, activeCategory]);
   
   const allCategories = getEnabledCategories();
   
@@ -161,7 +195,7 @@ export function ServiceDirectory() {
                   <Search className="h-6 w-6 text-text-muted" />
                 </div>
                 <h3 className="font-display text-xl font-semibold text-charcoal">No services found</h3>
-                <p className="mt-2 text-sm text-text-muted">We couldn't find any treatments matching your search criteria.</p>
+                <p className="mt-2 text-sm text-text-muted">We couldn&apos;t find any treatments matching your search criteria.</p>
                 <button 
                   onClick={() => { setSearchQuery(""); setActiveCategory("ALL"); }}
                   className="mt-6 text-sm font-semibold text-champagne-dark hover:text-champagne transition-colors"

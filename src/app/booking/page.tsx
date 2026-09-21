@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Calendar, User, Mail, Phone, MessageSquare, CheckCircle, ArrowLeft, MessageCircle } from "lucide-react";
+import { useState, Suspense, useEffect } from "react";
+import { Calendar, CheckCircle, ArrowLeft, MessageCircle, Phone, WifiOff, RefreshCw } from "lucide-react";
 import { Button, AnimatedCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { business, hasWhatsApp, getWhatsAppLink, hasPhone, getPhoneLink } from "@/config/business";
+import { hasWhatsApp, getWhatsAppLink, hasPhone, getPhoneLink } from "@/config/business";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
 import { getEnabledCategories } from "@/config/services";
 
 interface BookingFormData {
@@ -19,6 +18,8 @@ interface BookingFormData {
   message: string;
 }
 
+const DRAFT_KEY = "parlour_booking_draft";
+
 const timeSlots = [
   "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
   "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
@@ -28,43 +29,71 @@ const timeSlots = [
 ];
 
 function BookingForm() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState<BookingFormData>({
-    name: "",
-    phone: "",
-    email: "",
-    service: "",
-    date: "",
-    time: "",
-    message: "",
-  });
+  const [offlineError, setOfflineError] = useState<string | null>(null);
 
-  const searchParams = useSearchParams();
-  
-  useEffect(() => {
+  const [formData, setFormData] = useState<BookingFormData>(() => {
+    let initial: BookingFormData = {
+      name: "",
+      phone: "",
+      email: "",
+      service: "",
+      date: "",
+      time: "",
+      message: "",
+    };
+
+    if (typeof window !== "undefined") {
+      try {
+        const saved = sessionStorage.getItem(DRAFT_KEY);
+        if (saved) {
+          initial = { ...initial, ...JSON.parse(saved) };
+        }
+      } catch {}
+    }
+
     const serviceSlug = searchParams.get("service");
     if (serviceSlug) {
-      // Find the service name from the slug
       const allCategories = getEnabledCategories();
       for (const category of allCategories) {
-        const service = category.services.find(s => s.slug === serviceSlug);
+        const service = category.services.find((s) => s.slug === serviceSlug);
         if (service) {
-          setFormData(prev => ({ ...prev, service: service.name }));
+          initial.service = service.name;
           break;
         }
       }
     }
-  }, [searchParams]);
+
+    return initial;
+  });
+
+  // Save non-sensitive draft on change
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(formData));
+    } catch {}
+  }, [formData]);
 
   const updateField = (field: keyof BookingFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In production, this would POST to /api/appointments
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    // Check internet connectivity
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      setOfflineError("You're currently offline. Your request has not been submitted.");
+      return;
+    }
+
+    setOfflineError(null);
     setSubmitted(true);
+    try {
+      sessionStorage.removeItem(DRAFT_KEY);
+    } catch {}
   };
 
   const today = new Date().toISOString().split("T")[0];
@@ -403,6 +432,26 @@ function BookingForm() {
                     will contact you to confirm availability. This is not a
                     confirmed booking.
                   </p>
+
+                  {offlineError && (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50/90 p-4 text-left">
+                      <div className="flex items-center gap-2 text-amber-800 font-semibold text-sm">
+                        <WifiOff className="h-4 w-4" />
+                        <span>Offline</span>
+                      </div>
+                      <p className="mt-1 text-xs text-amber-700 leading-relaxed">
+                        {offlineError}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => handleSubmit()}
+                        className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-amber-200 px-3 py-1.5 text-xs font-semibold text-amber-900 hover:bg-amber-300 transition-colors"
+                      >
+                        <RefreshCw className="h-3.5 w-3.5" />
+                        Try Again
+                      </button>
+                    </div>
+                  )}
 
                   <div className="flex gap-3">
                     <Button onClick={() => setStep(2)} variant="ghost" type="button">
