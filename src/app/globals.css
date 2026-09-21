@@ -1,26 +1,297 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ═══════════════════════════════════════════════════════
+   DESIGN SYSTEM — Premium Beauty Parlour
+   ═══════════════════════════════════════════════════════ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ─── Colors ──────────────────────────────────────── */
+  --color-charcoal: #1C1C1E;
+  --color-charcoal-soft: #2C2C2E;
+  --color-charcoal-muted: #3A3A3C;
+  --color-ivory: #FAF8F5;
+  --color-cream: #F5F0EB;
+  --color-cream-dark: #EDE5DB;
+  --color-champagne: #C9A96E;
+  --color-champagne-soft: #D4B87C;
+  --color-champagne-light: #E8D5A8;
+  --color-champagne-dark: #A8862F;
+  --color-rose-nude: #C4A48C;
+  --color-rose-soft: #D9C4B0;
+  --color-text-primary: #1C1C1E;
+  --color-text-body: #4A4A4C;
+  --color-text-muted: #8E8E93;
+  --color-text-light: #AEAEB2;
+  --color-border: rgba(28, 28, 30, 0.08);
+  --color-border-strong: rgba(28, 28, 30, 0.15);
+  --color-white: #FFFFFF;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #128C7E;
+  --color-error: #DC3545;
+  --color-success: #28A745;
+
+  /* ─── Typography ──────────────────────────────────── */
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* ─── Spacing (extends Tailwind) ──────────────────── */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  --spacing-30: 7.5rem;
+  --spacing-34: 8.5rem;
+
+  /* ─── Border Radius ───────────────────────────────── */
+  --radius-card: 16px;
+  --radius-button: 12px;
+  --radius-pill: 999px;
+
+  /* ─── Animations ──────────────────────────────────── */
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ─── Z-Index Scale ───────────────────────────────── */
+  --z-sticky: 40;
+  --z-header: 50;
+  --z-drawer: 60;
+  --z-modal: 70;
+  --z-float: 80;
+  --z-toast: 90;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ═══════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  background-color: var(--color-ivory);
+  color: var(--color-text-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-champagne-light);
+  color: var(--color-charcoal);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ═══════════════════════════════════════════════════════ */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CUSTOM SCROLLBAR
+   ═══════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-champagne);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-champagne-dark);
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOCUS STATES (Accessibility)
+   ═══════════════════════════════════════════════════════ */
+
+:focus-visible {
+  outline: 2px solid var(--color-champagne);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLASSMORPHISM UTILITIES
+   ═══════════════════════════════════════════════════════ */
+
+.glass {
+  background: rgba(250, 248, 245, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.glass-dark {
+  background: rgba(28, 28, 30, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GRADIENT UTILITIES
+   ═══════════════════════════════════════════════════════ */
+
+.gradient-gold {
+  background: linear-gradient(135deg, #E8D5A8, #C9A96E 50%, #A8862F);
+}
+
+.gradient-charcoal {
+  background: linear-gradient(135deg, #2C2C2E, #1C1C1E);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #D4B87C, #C9A96E, #A8862F);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GOLD DIVIDER
+   ═══════════════════════════════════════════════════════ */
+
+.gold-divider {
+  height: 1px;
+  width: 80px;
+  margin: 14px auto;
+  background: linear-gradient(90deg, transparent, var(--color-champagne), transparent);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION PADDING
+   ═══════════════════════════════════════════════════════ */
+
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SAFE AREA PADDING (iPhone notch/bar)
+   ═══════════════════════════════════════════════════════ */
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE BOTTOM BAR SPACING
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  main {
+    padding-bottom: 72px; /* Height of mobile bottom bar */
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   WHATSAPP BUTTON ANIMATION
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes whatsapp-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+  }
+}
+
+.whatsapp-pulse {
+  animation: whatsapp-pulse 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLL INDICATOR
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes scroll-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(8px);
+  }
+  60% {
+    transform: translateY(4px);
+  }
+}
+
+.scroll-indicator {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO OVERLAY
+   ═══════════════════════════════════════════════════════ */
+
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(28, 28, 30, 0.4) 0%,
+    rgba(28, 28, 30, 0.6) 50%,
+    rgba(28, 28, 30, 0.8) 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   IMAGE REVEAL ANIMATION
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes image-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.image-reveal {
+  animation: image-reveal 1s var(--ease-luxury) forwards;
 }

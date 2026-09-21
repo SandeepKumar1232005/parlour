@@ -103,8 +103,8 @@ export function getWhatsAppLink(message?: string): string {
   const msg = message
     ? encodeURIComponent(message)
     : encodeURIComponent(
-        `Hi, I would like to enquire about your beauty services.`
-      );
+      `Hi, I would like to enquire about your beauty services.`
+    );
   return `https://wa.me/${business.whatsapp}?text=${msg}`;
 }
 

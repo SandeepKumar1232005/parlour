@@ -21,6 +21,8 @@ export interface Service {
   aftercare: string[];
   faqs: { question: string; answer: string }[];
   enabled: boolean;
+  sortOrder?: number;
+  isDemo?: boolean;
 }
 
 export interface ServiceCategory {
@@ -33,6 +35,7 @@ export interface ServiceCategory {
   services: Service[];
   enabled: boolean;
   sortOrder: number;
+  isDemo?: boolean;
 }
 
 /**
@@ -122,16 +125,35 @@ export const serviceCategories: ServiceCategory[] = [
 
 // ─── Helper Functions ────────────────────────────────────
 
+export function isDemoMode(): boolean {
+  return process.env.NEXT_PUBLIC_USE_DEMO_DATA === "true";
+}
+
+export function getActiveCategories(): ServiceCategory[] {
+  if (isDemoMode()) {
+    // We import dynamically or just require to avoid circular deps if they existed, 
+    // but a direct import at the top is cleaner. Let's just require it here to avoid top-level issues.
+    const { demoServiceCategories } = require("./demo-services");
+    return demoServiceCategories;
+  }
+  return serviceCategories;
+}
+
 export function getEnabledCategories(): ServiceCategory[] {
-  return serviceCategories
-    .filter((cat) => cat.enabled)
+  return getActiveCategories()
+    .filter((category) => category.enabled)
     .sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 export function getEnabledServices(): Service[] {
-  return serviceCategories
-    .filter((cat) => cat.enabled)
+  return getEnabledCategories()
     .flatMap((cat) => cat.services.filter((s) => s.enabled));
+}
+
+export function hasServices(): boolean {
+  return getEnabledCategories().some(
+    (category) => category.services.filter((s) => s.enabled).length > 0
+  );
 }
 
 export function getServiceBySlug(slug: string): Service | undefined {
@@ -142,11 +164,7 @@ export function getCategoryBySlug(slug: string): ServiceCategory | undefined {
   return getEnabledCategories().find((c) => c.slug === slug);
 }
 
-export function hasServices(): boolean {
-  return getEnabledServices().length > 0;
-}
-
 export function hasBridalServices(): boolean {
-  const bridal = serviceCategories.find((c) => c.id === "bridal");
+  const bridal = getActiveCategories().find((c) => c.id === "bridal" || c.id === "demo-bridal");
   return bridal?.enabled === true && bridal.services.some((s) => s.enabled);
 }
