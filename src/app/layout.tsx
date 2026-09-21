@@ -5,7 +5,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomBar } from "@/components/layout/MobileBottomBar";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
-import { DemoBadge } from "@/components/ui/DemoBadge";
 import { business } from "@/config/business";
 
 const cormorant = Cormorant_Garamond({
@@ -77,7 +76,6 @@ export default function RootLayout({
         <Footer />
         <MobileBottomBar />
         <WhatsAppFloat />
-        <DemoBadge />
       </body>
     </html>
   );

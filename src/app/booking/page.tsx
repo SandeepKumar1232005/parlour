@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { business, hasWhatsApp, getWhatsAppLink, hasPhone, getPhoneLink } from "@/config/business";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
-import { getEnabledCategories, isDemoMode } from "@/config/services";
+import { getEnabledCategories } from "@/config/services";
 
 interface BookingFormData {
   name: string;
@@ -88,25 +88,14 @@ function BookingForm() {
                   <CheckCircle className="h-8 w-8 text-whatsapp" />
                 </div>
                 <h2 className="font-display text-2xl font-semibold text-charcoal">
-                  {isDemoMode() ? "Demo Appointment Requested" : "Appointment Request Received"}
+                  Appointment Request Received
                 </h2>
-                {isDemoMode() ? (
-                  <div className="mt-4 rounded-lg bg-amber-50 p-4 border border-amber-200">
-                    <p className="text-sm font-semibold text-amber-800">
-                      Demo appointment request submitted successfully.
-                    </p>
-                    <p className="mt-1 text-xs text-amber-700">
-                      This is a demonstration environment. No real appointment has been created and no real messages will be sent.
-                    </p>
-                  </div>
-                ) : (
-                  <p className="mt-3 text-sm leading-relaxed text-text-muted">
-                    Our team will contact you to confirm availability for your
-                    preferred date and time. This is{" "}
-                    <strong>not a confirmed booking</strong> — we will reach out
-                    shortly.
-                  </p>
-                )}
+                <p className="mt-3 text-sm leading-relaxed text-text-muted">
+                  Our team will contact you to confirm availability for your
+                  preferred date and time. This is{" "}
+                  <strong>not a confirmed booking</strong> — we will reach out
+                  shortly.
+                </p>
 
                 {/* Summary */}
                 <div className="mt-6 rounded-xl bg-cream p-4 text-left text-sm text-text-body">
