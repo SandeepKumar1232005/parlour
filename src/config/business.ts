@@ -21,14 +21,27 @@ export const business = {
   whatsapp: "919363499428", // e.g. "919500000000" (without +)
   email: "", // e.g. "hello@example.com"
 
-  // ─── Location ────────────────────────────────────────
+  // ─── Centralized Location & Google Maps ───────────────
+  location: {
+    address: "2/10, Kumaran Nagar, Vishweshwara Nagar, Coimbatore, Tamil Nadu 641035",
+    googleMapsEmbedUrl:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1170.3013593304368!2d77.01361897496331!3d11.056127482065314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba857fee5ce4591%3A0x4c36da916f5869bf!2s2%2F10%2C%20Kumaran%20Nagar%2C%20Vishweshwara%20Nagar%2C%20Coimbatore%2C%20Tamil%20Nadu%20641035!5e1!3m2!1sen!2sin!4v1789981263066!5m2!1sen!2sin",
+    googleMapsUrl:
+      "https://www.google.com/maps/place/2%2F10,+Kumaran+Nagar,+Vishweshwara+Nagar,+Coimbatore,+Tamil+Nadu+641035/@11.0561275,77.013619,17z",
+    directionsUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=2%2F10%2C+Kumaran+Nagar%2C+Vishweshwara+Nagar%2C+Coimbatore%2C+Tamil+Nadu+641035",
+    latitude: 11.0561275,
+    longitude: 77.013619,
+  },
+
+  // ─── Address ─────────────────────────────────────────
   address: {
-    street: "",
-    area: "",
+    street: "2/10, Kumaran Nagar",
+    area: "Vishweshwara Nagar",
     city: "Coimbatore",
     state: "Tamil Nadu",
-    pin: "",
-    full: "", // Full formatted address
+    pin: "641035",
+    full: "2/10, Kumaran Nagar, Vishweshwara Nagar, Coimbatore, Tamil Nadu 641035",
   },
 
   // ─── Hours ───────────────────────────────────────────
@@ -41,10 +54,13 @@ export const business = {
 
   // ─── Google Maps ─────────────────────────────────────
   maps: {
-    url: "", // Google Maps link
-    embedUrl: "", // Google Maps embed iframe URL
-    lat: 0,
-    lng: 0,
+    url: "https://www.google.com/maps/place/2%2F10,+Kumaran+Nagar,+Vishweshwara+Nagar,+Coimbatore,+Tamil+Nadu+641035/@11.0561275,77.013619,17z",
+    embedUrl:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1170.3013593304368!2d77.01361897496331!3d11.056127482065314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba857fee5ce4591%3A0x4c36da916f5869bf!2s2%2F10%2C%20Kumaran%20Nagar%2C%20Vishweshwara%20Nagar%2C%20Coimbatore%2C%20Tamil%20Nadu%20641035!5e1!3m2!1sen!2sin!4v1789981263066!5m2!1sen!2sin",
+    directionsUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=2%2F10%2C+Kumaran+Nagar%2C+Vishweshwara+Nagar%2C+Coimbatore%2C+Tamil+Nadu+641035",
+    lat: 11.0561275,
+    lng: 77.013619,
   },
 
   // ─── Social Media ────────────────────────────────────
@@ -79,7 +95,11 @@ export function hasWhatsApp(): boolean {
 }
 
 export function hasAddress(): boolean {
-  return business.address.full.length > 0 || business.address.street.length > 0;
+  return (
+    business.location.address.length > 0 ||
+    business.address.full.length > 0 ||
+    business.address.street.length > 0
+  );
 }
 
 export function hasHours(): boolean {
@@ -87,7 +107,28 @@ export function hasHours(): boolean {
 }
 
 export function hasMaps(): boolean {
-  return business.maps.url.length > 0;
+  return (
+    business.location.googleMapsEmbedUrl.length > 0 ||
+    business.maps.embedUrl.length > 0 ||
+    business.location.googleMapsUrl.length > 0 ||
+    business.maps.url.length > 0
+  );
+}
+
+export function getMapsEmbedUrl(): string {
+  return business.location.googleMapsEmbedUrl || business.maps.embedUrl;
+}
+
+export function getGoogleMapsUrl(): string {
+  return business.location.googleMapsUrl || business.maps.url;
+}
+
+export function getDirectionsUrl(): string {
+  return (
+    business.location.directionsUrl ||
+    business.maps.directionsUrl ||
+    getGoogleMapsUrl()
+  );
 }
 
 export function hasSocial(platform: keyof typeof business.social): boolean {
@@ -109,6 +150,7 @@ export function getWhatsAppLink(message?: string): string {
 }
 
 export function getFullAddress(): string {
+  if (business.location.address) return business.location.address;
   if (business.address.full) return business.address.full;
   const parts = [
     business.address.street,

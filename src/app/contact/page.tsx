@@ -25,6 +25,40 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      {/* Structured Data — LocalBusiness Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BeautySalon",
+            name: business.name,
+            url: business.seo.siteUrl || undefined,
+            telephone: business.phone || undefined,
+            email: business.email || undefined,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: business.address.street,
+              addressLocality: business.address.city,
+              addressRegion: business.address.state,
+              postalCode: business.address.pin,
+              addressCountry: "IN",
+            },
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: business.location.latitude,
+              longitude: business.location.longitude,
+            },
+            hasMap: business.location.googleMapsUrl,
+            areaServed: {
+              "@type": "City",
+              name: business.address.city,
+            },
+            sameAs: [business.social.instagram, business.social.facebook].filter(Boolean),
+          }),
+        }}
+      />
+
       {/* Page Hero */}
       <section className="relative bg-charcoal pt-32 pb-20 text-center">
         <div className="relative mx-auto max-w-4xl px-4">
