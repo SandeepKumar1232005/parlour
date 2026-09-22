@@ -13,7 +13,6 @@ import {
   hasWhatsApp,
   hasAddress,
   hasHours,
-  hasSocial,
   getPhoneLink,
   getWhatsAppLink,
   getFullAddress,
