@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Scissors, MessageCircle, Calendar, Phone } from "lucide-react";
+import { Home, Scissors, Calendar, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { hasPhone, hasWhatsApp, getPhoneLink, getWhatsAppLink } from "@/config/business";
+import { hasPhone, getPhoneLink } from "@/config/business";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const barItems = [
   { label: "Home", href: "/", icon: Home, type: "link" as const },
   { label: "Services", href: "/services", icon: Scissors, type: "link" as const },
-  { label: "WhatsApp", href: "", icon: MessageCircle, type: "whatsapp" as const },
+  { label: "WhatsApp", href: "", icon: Phone, type: "whatsapp" as const },
   { label: "Book", href: "/booking", icon: Calendar, type: "link" as const },
   { label: "Call", href: "", icon: Phone, type: "call" as const },
 ];
@@ -25,28 +26,30 @@ export function MobileBottomBar() {
     >
       <div className="flex items-center justify-around px-2 py-2">
         {barItems.map((item) => {
-          // Skip WhatsApp/Call if not configured
-          if (item.type === "whatsapp" && !hasWhatsApp()) return null;
+          // Skip Call if not configured
           if (item.type === "call" && !hasPhone()) return null;
 
+          if (item.type === "whatsapp") {
+            return (
+              <WhatsAppButton 
+                key={item.label}
+                variant="mobile-sticky" 
+                className={cn(item.label === "WhatsApp" ? "" : "")} // keeping it for generic styling
+              />
+            );
+          }
+
           const Icon = item.icon;
-          const isHighlighted = item.type === "whatsapp" || item.label === "Book";
+          const isHighlighted = item.label === "Book";
 
-          const href =
-            item.type === "whatsapp"
-              ? getWhatsAppLink()
-              : item.type === "call"
-              ? getPhoneLink()
-              : item.href;
+          const href = item.type === "call" ? getPhoneLink() : item.href;
 
-          const isExternal = item.type === "whatsapp";
+          const isExternal = item.type === "call";
 
           const className = cn(
             "flex flex-col items-center justify-center gap-0.5 rounded-xl px-3 py-1.5 min-w-[56px] min-h-[44px] transition-all duration-300",
             isHighlighted
-              ? item.type === "whatsapp"
-                ? "text-whatsapp-dark"
-                : "text-champagne-dark"
+              ? "text-champagne-dark"
               : "text-text-muted hover:text-charcoal"
           );
 
@@ -55,7 +58,6 @@ export function MobileBottomBar() {
               <Icon
                 className={cn(
                   "h-5 w-5",
-                  isHighlighted && item.type === "whatsapp" && "text-whatsapp",
                   isHighlighted && item.label === "Book" && "text-champagne"
                 )}
               />
@@ -70,16 +72,6 @@ export function MobileBottomBar() {
             </>
           );
 
-          const handleAnchorClick = (e: React.MouseEvent) => {
-            if (item.type === "whatsapp" && !isOnline) {
-              e.preventDefault();
-              showNetworkNotice(
-                "WhatsApp requires an active internet connection. Please check your connection and try again.",
-                "warning"
-              );
-            }
-          };
-
           if (isExternal || item.type === "call") {
             return (
               <a
@@ -87,7 +79,6 @@ export function MobileBottomBar() {
                 href={href}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
-                onClick={handleAnchorClick}
                 className={className}
                 aria-label={item.label}
               >

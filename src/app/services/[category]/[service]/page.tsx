@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MessageCircle, Calendar, Clock, Banknote, ArrowLeft, CheckCircle2 } from "lucide-react";
-import { business, getWhatsAppLink } from "@/config/business";
+import { business } from "@/config/business";
 import { getCategoryBySlug } from "@/config/services";
 import { AnimatedCard, Button } from "@/components/ui";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 interface ServicePageProps {
   params: Promise<{ category: string; service: string }>;
@@ -190,15 +191,13 @@ export default async function ServiceDetailsPage({ params }: ServicePageProps) {
                         <Calendar className="h-4 w-4 mr-2" />
                         Book Appointment
                       </Button>
-                      <Button 
-                        href={getWhatsAppLink(`Hi, I would like to enquire about the ${service.name} service.`)} 
-                        variant="whatsapp" 
-                        external 
+                      <WhatsAppButton 
+                        variant="service"
+                        message={`Hi, I would like to enquire about the ${service.name} service.`}
                         className="w-full justify-center"
                       >
-                        <MessageCircle className="h-4 w-4 mr-2" />
                         WhatsApp Enquiry
-                      </Button>
+                      </WhatsAppButton>
                     </div>
                     
                     <div className="mt-6 text-center">

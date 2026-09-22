@@ -4,7 +4,8 @@ import { useState, Suspense, useEffect } from "react";
 import { Calendar, CheckCircle, ArrowLeft, MessageCircle, Phone, WifiOff, RefreshCw } from "lucide-react";
 import { Button, AnimatedCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { hasWhatsApp, getWhatsAppLink, hasPhone, getPhoneLink } from "@/config/business";
+import { hasPhone, getPhoneLink } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { useSearchParams } from "next/navigation";
 import { getEnabledCategories } from "@/config/services";
 
@@ -134,19 +135,13 @@ function BookingForm() {
                 </div>
 
                 <div className="mt-6 flex flex-col gap-3">
-                  {hasWhatsApp() && (
-                    <Button
-                      href={getWhatsAppLink(
-                        `Hi, I submitted an appointment request for ${formData.service || "a service"}${formData.date ? ` on ${formData.date}` : ""}. I would like to confirm availability.`
-                      )}
-                      external
-                      variant="whatsapp"
-                      className="w-full"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      Continue on WhatsApp
-                    </Button>
-                  )}
+                  <WhatsAppButton
+                    variant="booking"
+                    message={`Hi, I submitted an appointment request for ${formData.service || "a service"}${formData.date ? ` on ${formData.date}` : ""}. I would like to confirm availability.`}
+                    className="w-full"
+                  >
+                    Continue on WhatsApp
+                  </WhatsAppButton>
                   {hasPhone() && (
                     <Button href={getPhoneLink()} variant="outline" className="w-full">
                       <Phone className="h-4 w-4" />

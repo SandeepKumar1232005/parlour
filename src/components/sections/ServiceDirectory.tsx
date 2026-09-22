@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Search, Sparkles, Scissors, Crown, Palette, Hand, Flower2, Leaf, ArrowRight, MessageCircle, Calendar } from "lucide-react";
 import { AnimatedCard, Button } from "@/components/ui";
 import { getEnabledCategories, Service } from "@/config/services";
-import { getWhatsAppLink } from "@/config/business";
 import { cn } from "@/lib/utils";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const iconMap: Record<string, React.ElementType> = {
   Scissors, Sparkles, Crown, Palette, Hand, Flower2, Leaf,
@@ -265,15 +265,11 @@ export function ServiceDirectory() {
                           <Calendar className="h-4 w-4 mr-2" />
                           Book
                         </Button>
-                        <Button 
-                          href={getWhatsAppLink(`Hi, I would like to enquire about the ${service.name} service.`)} 
-                          variant="whatsapp" 
-                          external 
+                        <WhatsAppButton 
+                          variant="service"
+                          message={`Hi, I would like to enquire about the ${service.name} service.`}
                           className="flex-1 justify-center py-2"
-                        >
-                          <MessageCircle className="h-4 w-4 mr-2" />
-                          WhatsApp
-                        </Button>
+                        />
                         <Button 
                           href={`/services/${service.categorySlug}/${service.slug}`} 
                           variant="outline" 

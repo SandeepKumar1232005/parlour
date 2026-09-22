@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { AnimatedCard } from "@/components/ui";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { LocationSection } from "@/components/sections/LocationSection";
-import { MapPin, Phone, MessageCircle, Clock, Mail } from "lucide-react";
-import { InstagramIcon, FacebookIcon } from "@/components/ui/icons";
+import { MapPin, Phone, Clock, Mail } from "lucide-react";
+import { InstagramIcon, FacebookIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import {
   business,
   hasPhone,
@@ -12,7 +13,6 @@ import {
   hasHours,
   hasSocial,
   getPhoneLink,
-  getWhatsAppLink,
   getFullAddress,
   getInstagramLink,
   getFacebookLink,
@@ -131,7 +131,7 @@ export default function ContactPage() {
                   <div className="rounded-xl border border-whatsapp/15 bg-whatsapp/5 p-5">
                     <div className="flex items-start gap-3">
                       <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-whatsapp/15">
-                        <MessageCircle className="h-4 w-4 text-whatsapp-dark" />
+                        <WhatsAppIcon className="h-4 w-4 text-whatsapp-dark" />
                       </div>
                       <div>
                         <h3 className="text-sm font-semibold text-charcoal">
@@ -140,15 +140,7 @@ export default function ContactPage() {
                         <p className="mt-1 text-xs text-text-muted">
                           Quick responses on WhatsApp
                         </p>
-                        <a
-                          href={getWhatsAppLink()}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-whatsapp-dark hover:underline"
-                        >
-                          <MessageCircle className="h-3 w-3" />
-                          Chat Now
-                        </a>
+                        <WhatsAppButton variant="ghost" />
                       </div>
                     </div>
                   </div>

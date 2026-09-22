@@ -4,7 +4,8 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { AnimatedCard, Button } from "@/components/ui";
 import { Calendar, MessageCircle } from "lucide-react";
-import { business, hasWhatsApp, getWhatsAppLink } from "@/config/business";
+import { business } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: `Bridal Makeup & Services`,
@@ -93,19 +94,13 @@ export default function BridalPage() {
                     <Calendar className="h-4 w-4" />
                     Book Bridal Consultation
                   </Button>
-                  {hasWhatsApp() && (
-                    <Button
-                      href={getWhatsAppLink(
-                        "Hi, I would like to enquire about your bridal makeup services for my wedding."
-                      )}
-                      external
-                      variant="whatsapp"
-                      size="lg"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      Enquire on WhatsApp
-                    </Button>
-                  )}
+                  <WhatsAppButton
+                    variant="default"
+                    message="Hi, I would like to enquire about your bridal makeup services for my wedding."
+                    className="px-9 py-4 text-base"
+                  >
+                    Enquire on WhatsApp
+                  </WhatsAppButton>
                 </div>
               </div>
             </AnimatedCard>

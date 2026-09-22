@@ -2,7 +2,8 @@
 
 import { Calendar, MessageCircle, Phone, ArrowRight } from "lucide-react";
 import { Button, AnimatedCard } from "@/components/ui";
-import { business, hasPhone, hasWhatsApp, getPhoneLink, getWhatsAppLink } from "@/config/business";
+import { business, hasPhone, getPhoneLink } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export function FinalCTA() {
   return (
@@ -33,17 +34,7 @@ export function FinalCTA() {
               <Calendar className="h-4 w-4" />
               Book Appointment
             </Button>
-            {hasWhatsApp() && (
-              <Button
-                href={getWhatsAppLink()}
-                external
-                variant="whatsapp"
-                size="lg"
-              >
-                <MessageCircle className="h-4 w-4" />
-                WhatsApp Us
-              </Button>
-            )}
+            <WhatsAppButton variant="default" className="px-9 py-4 text-base" />
             {hasPhone() && (
               <Button href={getPhoneLink()} variant="ghost" size="lg" className="text-white/60 hover:text-white hover:bg-white/10">
                 <Phone className="h-4 w-4" />

@@ -6,12 +6,11 @@ import {
   socialLinks,
   getInstagramLink, 
   getFacebookLink, 
-  hasWhatsApp, 
-  getWhatsAppLink, 
   hasPhone, 
   getPhoneLink 
 } from "@/config/business";
 import { cn } from "@/lib/utils";
+import { WhatsAppButton } from "./WhatsAppButton";
 
 interface SocialIconProps {
   href?: string;
@@ -95,10 +94,8 @@ export function SocialLinksGroup({
   iconClassName,
   variant = "light",
 }: SocialLinksGroupProps) {
-  // Pull from centralized configuration
   const instagramUrl = socialLinks.instagram || getInstagramLink();
   const facebookUrl = socialLinks.facebook || getFacebookLink();
-  const whatsAppUrl = hasWhatsApp() ? getWhatsAppLink("Hi, I would like to get in touch.") : "";
   const phoneUrl = hasPhone() ? getPhoneLink() : "";
 
   return (
@@ -126,14 +123,10 @@ export function SocialLinksGroup({
       />
 
       {/* 3. WhatsApp — Official WhatsApp brand icon */}
-      <SocialIcon
-        href={whatsAppUrl}
-        icon={WhatsAppIcon}
-        label="WhatsApp"
-        unconfiguredTooltip="WhatsApp link not configured"
+      <WhatsAppButton 
+        variant={variant === "light" ? "footer-light" : "footer-dark"} 
         className={iconClassName}
-        isExternal={true}
-        variant={variant}
+        message="Hi, I would like to get in touch."
       />
 
       {/* 4. Call — Always visibly rendered */}

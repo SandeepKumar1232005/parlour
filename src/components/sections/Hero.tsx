@@ -5,7 +5,8 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ChevronDown, MessageCircle, Calendar } from "lucide-react";
 import { Button } from "@/components/ui";
-import { business, hasWhatsApp, getWhatsAppLink } from "@/config/business";
+import { business } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -124,17 +125,7 @@ export function Hero() {
             <Calendar className="h-4 w-4" />
             Book Appointment
           </Button>
-          {hasWhatsApp() && (
-            <Button
-              href={getWhatsAppLink()}
-              external
-              size="lg"
-              variant="whatsapp"
-            >
-              <MessageCircle className="h-4 w-4" />
-              WhatsApp Us
-            </Button>
-          )}
+          <WhatsAppButton variant="hero" />
         </motion.div>
       </div>
 

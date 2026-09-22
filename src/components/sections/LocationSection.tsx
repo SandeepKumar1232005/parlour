@@ -2,6 +2,7 @@
 
 import { MapPin, Phone, Clock, MessageCircle, Mail, Calendar, WifiOff, ExternalLink } from "lucide-react";
 import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 import {
   business,
@@ -12,7 +13,6 @@ import {
   hasMaps,
   hasEmail,
   getPhoneLink,
-  getWhatsAppLink,
   getEmailLink,
   getFullAddress,
   getMapsEmbedUrl,
@@ -26,16 +26,6 @@ export function LocationSection() {
   const directionsUrl = getDirectionsUrl();
   const googleMapsUrl = getGoogleMapsUrl();
   const address = getFullAddress();
-
-  const handleWhatsAppClick = (e?: React.MouseEvent) => {
-    if (!isOnline) {
-      if (e) e.preventDefault();
-      showNetworkNotice(
-        "WhatsApp requires an active internet connection. Please check your connection and try again.",
-        "warning"
-      );
-    }
-  };
 
   return (
     <section className="section-padding bg-ivory" id="location">
@@ -170,18 +160,11 @@ export function LocationSection() {
 
                 {/* Action Buttons: WhatsApp & Call */}
                 <div className="flex flex-col gap-3 sm:flex-row">
-                  {hasWhatsApp() && (
-                    <Button
-                      href={getWhatsAppLink("Hi, I would like to visit your salon.")}
-                      external
-                      variant="whatsapp"
-                      className="flex-1 min-h-[44px]"
-                      onClick={handleWhatsAppClick}
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      WhatsApp Us
-                    </Button>
-                  )}
+                  <WhatsAppButton 
+                    variant="default"
+                    message="Hi, I would like to visit your salon."
+                    className="flex-1 min-h-[44px]"
+                  />
                   {hasPhone() && (
                     <Button
                       href={getPhoneLink()}

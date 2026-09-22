@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MessageCircle, Calendar } from "lucide-react";
-import { business, getWhatsAppLink } from "@/config/business";
+import { business } from "@/config/business";
 import { getCategoryBySlug } from "@/config/services";
 import { AnimatedCard, Button } from "@/components/ui";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
@@ -119,15 +120,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                           <Calendar className="h-4 w-4 mr-2" />
                           Book
                         </Button>
-                        <Button 
-                          href={getWhatsAppLink(`Hi, I would like to enquire about the ${service.name} service.`)} 
-                          variant="whatsapp" 
-                          external 
+                        <WhatsAppButton 
+                          variant="service"
+                          message={`Hi, I would like to enquire about the ${service.name} service.`}
                           className="flex-1 sm:flex-none justify-center"
-                        >
-                          <MessageCircle className="h-4 w-4 mr-2" />
-                          WhatsApp
-                        </Button>
+                        />
                         <Button 
                           href={`/services/${category.slug}/${service.slug}`} 
                           variant="ghost" 
@@ -147,14 +144,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <div className="mt-16 text-center border-t border-border pt-12">
             <h3 className="font-display text-xl font-semibold text-charcoal">Not sure which service is right for you?</h3>
             <p className="mt-2 text-sm text-text-muted mb-6">Our experts can help you choose the perfect {category.name.toLowerCase()} treatment.</p>
-            <Button 
-              href={getWhatsAppLink(`Hi, I would like some help choosing a ${category.name} service.`)} 
-              variant="whatsapp" 
-              external
+            <WhatsAppButton 
+              variant="default"
+              message={`Hi, I would like some help choosing a ${category.name} service.`}
             >
-              <MessageCircle className="h-4 w-4 mr-2" />
               Chat with us on WhatsApp
-            </Button>
+            </WhatsAppButton>
           </div>
           
         </div>

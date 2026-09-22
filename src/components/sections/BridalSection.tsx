@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { Crown, Calendar, MessageCircle } from "lucide-react";
 import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
-import { hasWhatsApp, getWhatsAppLink } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export function BridalSection() {
   return (
@@ -63,18 +63,12 @@ export function BridalSection() {
                   <Calendar className="h-4 w-4" />
                   Book Bridal Consultation
                 </Button>
-                {hasWhatsApp() && (
-                  <Button
-                    href={getWhatsAppLink(
-                      "Hi, I would like to enquire about your bridal makeup services."
-                    )}
-                    external
-                    variant="whatsapp"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    Enquire on WhatsApp
-                  </Button>
-                )}
+                <WhatsAppButton 
+                  variant="default"
+                  message="Hi, I would like to enquire about your bridal makeup services."
+                >
+                  Enquire on WhatsApp
+                </WhatsAppButton>
               </div>
             </div>
           </AnimatedCard>

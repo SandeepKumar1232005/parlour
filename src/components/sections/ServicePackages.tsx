@@ -3,7 +3,7 @@
 import { CheckCircle2, MessageCircle, Calendar } from "lucide-react";
 import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
 import { getEnabledPackages, hasPackages } from "@/config/packages";
-import { getWhatsAppLink } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export function ServicePackages() {
   const displayPackages = getEnabledPackages();
@@ -71,15 +71,11 @@ export function ServicePackages() {
                       <Calendar className="mr-2 h-4 w-4" />
                       Book Now
                     </Button>
-                    <Button
-                      href={getWhatsAppLink(`Hi, I would like to book the ${pkg.name}.`)}
-                      variant="whatsapp"
-                      external
+                    <WhatsAppButton 
+                      variant="service"
+                      message={`Hi, I would like to book the ${pkg.name}.`}
                       className="flex-1 justify-center"
-                    >
-                      <MessageCircle className="mr-2 h-4 w-4" />
-                      WhatsApp
-                    </Button>
+                    />
                   </div>
                 </div>
               </div>

@@ -3,7 +3,6 @@ import {
   MapPin,
   Phone,
   Clock,
-  MessageCircle,
 } from "lucide-react";
 
 import { SocialLinksGroup } from "@/components/ui/SocialLinks";
@@ -14,9 +13,9 @@ import {
   hasAddress,
   hasHours,
   getPhoneLink,
-  getWhatsAppLink,
   getFullAddress,
 } from "@/config/business";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -149,15 +148,7 @@ export function Footer() {
             {/* CTA Buttons */}
             <div className="mt-6 flex gap-2">
               {hasWhatsApp() && (
-                <a
-                  href={getWhatsAppLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-lg bg-whatsapp/15 px-4 py-2.5 text-xs font-semibold text-whatsapp transition-all hover:bg-whatsapp/25"
-                >
-                  <MessageCircle className="h-3.5 w-3.5" />
-                  WhatsApp
-                </a>
+                <WhatsAppButton variant="pill" />
               )}
               {hasPhone() && (
                 <a
