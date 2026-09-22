@@ -1,7 +1,7 @@
 "use client";
 
-import { Phone, MessageCircle } from "lucide-react";
-import { InstagramIcon, FacebookIcon } from "@/components/ui/icons";
+import { Phone } from "lucide-react";
+import { InstagramIcon, FacebookIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { 
   socialLinks,
   getInstagramLink, 
@@ -38,14 +38,20 @@ export function SocialIcon({
     "group flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne focus-visible:ring-offset-2";
 
   if (isConfigured && href) {
+    const isWhatsApp = label === "WhatsApp";
     const activeClasses =
       variant === "light"
-        ? "border-border bg-white text-text-muted hover:border-champagne hover:bg-champagne/10 hover:text-champagne-dark hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-white cursor-pointer"
-        : "border-white/10 bg-white/5 text-white/70 hover:border-champagne/50 hover:bg-champagne/20 hover:text-white hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-charcoal cursor-pointer";
+        ? isWhatsApp
+          ? "border-border bg-white text-text-muted hover:border-whatsapp/50 hover:bg-whatsapp/10 hover:text-whatsapp hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-white cursor-pointer"
+          : "border-border bg-white text-text-muted hover:border-champagne hover:bg-champagne/10 hover:text-champagne-dark hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-white cursor-pointer"
+        : isWhatsApp
+          ? "border-white/10 bg-white/5 text-white/70 hover:border-whatsapp/50 hover:bg-whatsapp/15 hover:text-whatsapp hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-charcoal cursor-pointer"
+          : "border-white/10 bg-white/5 text-white/70 hover:border-champagne/50 hover:bg-champagne/20 hover:text-white hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-charcoal cursor-pointer";
 
     return (
       <a
         href={href}
+        title={label}
         aria-label={label}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
@@ -119,10 +125,10 @@ export function SocialLinksGroup({
         variant={variant}
       />
 
-      {/* 3. WhatsApp — Always visibly rendered */}
+      {/* 3. WhatsApp — Official WhatsApp brand icon */}
       <SocialIcon
         href={whatsAppUrl}
-        icon={MessageCircle}
+        icon={WhatsAppIcon}
         label="WhatsApp"
         unconfiguredTooltip="WhatsApp link not configured"
         className={iconClassName}
