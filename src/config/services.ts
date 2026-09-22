@@ -45,7 +45,7 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "hair",
     description: "Expert hair styling, cuts, colouring and advanced treatments using premium salon products.",
     icon: "Scissors",
-    image: "",
+    image: "/images/categories/hair.jpg",
     enabled: true,
     sortOrder: 1,
     services: [
@@ -133,7 +133,7 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "skin",
     description: "Advanced skincare & facial treatments for a radiant, healthy glow.",
     icon: "Sparkles",
-    image: "",
+    image: "/images/categories/skin-facials.jpg",
     enabled: true,
     sortOrder: 2,
     services: [
@@ -199,7 +199,7 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "bridal",
     description: "Complete bridal beauty services ensuring you look perfect on your special day.",
     icon: "Crown",
-    image: "",
+    image: "/images/categories/bridal.jpg",
     enabled: true,
     sortOrder: 3,
     services: [
@@ -247,7 +247,7 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "makeup",
     description: "Professional makeup for every occasion, from subtle to glamorous.",
     icon: "Palette",
-    image: "",
+    image: "/images/categories/makeup.jpg",
     enabled: true,
     sortOrder: 4,
     services: [
@@ -295,7 +295,7 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "nails",
     description: "Manicure, pedicure & beautiful nail art.",
     icon: "Hand",
-    image: "",
+    image: "/images/categories/nails.jpg",
     enabled: true,
     sortOrder: 5,
     services: [
@@ -343,7 +343,7 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "spa",
     description: "Relaxing spa treatments to rejuvenate your mind and body.",
     icon: "Flower2",
-    image: "",
+    image: "/images/categories/spa-wellness.jpg",
     enabled: true,
     sortOrder: 6,
     services: [
