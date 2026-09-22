@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Search, Sparkles, Scissors, Crown, Palette, Hand, Flower2, Leaf, ArrowRight, MessageCircle, Calendar } from "lucide-react";
 import { AnimatedCard, Button } from "@/components/ui";
@@ -162,14 +163,15 @@ export function ServiceDirectory() {
                     {/* Category Image */}
                     {category.image && (
                       <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9" }}>
-                        <img
+                        <Image
                           src={category.image}
                           alt={`${category.name} services`}
-                          loading="lazy"
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                         />
                         {/* Subtle gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                         {/* Service count badge on image */}
                         {activeServicesCount > 0 && (
                           <span className="absolute top-3 right-3 rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-charcoal shadow-sm">

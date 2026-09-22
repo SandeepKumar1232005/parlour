@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { Crown, Calendar, MessageCircle } from "lucide-react";
 import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
 import { hasWhatsApp, getWhatsAppLink } from "@/config/business";
@@ -80,16 +82,15 @@ export function BridalSection() {
           {/* Right — Visual */}
           <AnimatedCard delay={0.2}>
             <div className="relative">
-              <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-charcoal-soft">
-                {/* Elegant placeholder until real bridal image is provided */}
-                <div className="flex h-full w-full items-center justify-center">
-                  <div className="text-center">
-                    <Crown className="mx-auto h-16 w-16 text-champagne/20" />
-                    <p className="mt-4 text-sm text-white/20">
-                      Bridal portfolio image
-                    </p>
-                  </div>
-                </div>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-charcoal-soft">
+                <Image
+                  src="/images/categories/bridal.jpg"
+                  alt="Bridal beauty styling"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent pointer-events-none" />
               </div>
               {/* Decorative frame accent */}
               <div className="absolute -bottom-4 -right-4 -z-10 h-full w-full rounded-2xl border border-champagne/15" />

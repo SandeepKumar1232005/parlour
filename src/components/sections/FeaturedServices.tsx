@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Scissors, Sparkles, Crown, Palette, Hand, Flower2, Leaf, ArrowRight } from "lucide-react";
 import { SectionHeader, AnimatedCard, Button } from "@/components/ui";
@@ -38,36 +39,57 @@ export function FeaturedServices() {
                 <Link
                   href={`/services/${category.slug}`}
                   className={cn(
-                    "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white p-6 sm:p-7 transition-all duration-500",
+                    "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-500",
                     "hover:border-champagne/20 hover:shadow-[0_8px_30px_rgba(201,169,110,0.08)]",
                     "hover:-translate-y-1 active:scale-[0.98]"
                   )}
                 >
-                  <div className="flex items-start justify-between">
-                    {/* Icon */}
-                    <div className="mb-4 sm:mb-5 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-cream transition-colors duration-500 group-hover:bg-champagne/10">
-                      <Icon className="h-5 w-5 text-champagne-dark transition-transform duration-500 group-hover:scale-110" />
+                  {/* Category Image */}
+                  {category.image && (
+                    <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9" }}>
+                      <Image
+                        src={category.image}
+                        alt={`${category.name} services`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      />
+                      {/* Subtle gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                      {/* Service count badge on image */}
+                      {activeServicesCount > 0 && (
+                        <span className="absolute top-3 right-3 rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-charcoal shadow-sm">
+                          {activeServicesCount} Services
+                        </span>
+                      )}
                     </div>
-                    {/* Service Count (if available) */}
-                    {activeServicesCount > 0 && (
-                      <span className="rounded-full bg-cream px-2.5 py-1 text-xs font-medium text-text-muted">
-                        {activeServicesCount} Services
-                      </span>
-                    )}
-                  </div>
+                  )}
 
-                  {/* Content */}
-                  <h3 className="font-display text-lg sm:text-xl font-semibold text-charcoal">
-                    {category.name}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-text-muted line-clamp-2">
-                    {category.description}
-                  </p>
+                  {/* Card Content */}
+                  <div className="flex flex-1 flex-col p-6 sm:p-7">
+                    <div className="flex items-start justify-between">
+                      <div className="mb-3 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-cream transition-colors duration-500 group-hover:bg-champagne/10">
+                        <Icon className="h-4.5 w-4.5 text-champagne-dark transition-transform duration-500 group-hover:scale-110" />
+                      </div>
+                      {/* Fallback count badge if no image */}
+                      {!category.image && activeServicesCount > 0 && (
+                        <span className="rounded-full bg-cream px-2.5 py-1 text-xs font-medium text-text-muted">
+                          {activeServicesCount} Services
+                        </span>
+                      )}
+                    </div>
 
-                  {/* CTA */}
-                  <div className="mt-5 flex items-center gap-1 text-sm font-medium text-champagne-dark transition-all duration-300 group-hover:gap-2">
-                    <span>Explore Services</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    <h3 className="font-display text-lg sm:text-xl font-semibold text-charcoal">
+                      {category.name}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-text-muted line-clamp-2">
+                      {category.description}
+                    </p>
+
+                    <div className="mt-5 flex items-center gap-1 text-sm font-medium text-champagne-dark transition-all duration-300 group-hover:gap-2">
+                      <span>Explore Services</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </div>
                   </div>
 
                   {/* Hover accent line */}
