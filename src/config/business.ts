@@ -177,9 +177,25 @@ export function getEmailLink(): string {
 }
 
 export function getInstagramLink(): string {
-  return business.social.instagram || "#";
+  return business.social.instagram || "";
 }
 
 export function getFacebookLink(): string {
-  return business.social.facebook || "#";
+  return business.social.facebook || "";
 }
+
+// ─── Centralized Social Links Object ────────────────────
+export const socialLinks = {
+  get instagram() {
+    return business.social.instagram;
+  },
+  get facebook() {
+    return business.social.facebook;
+  },
+  get whatsapp() {
+    return business.whatsapp;
+  },
+  get phone() {
+    return business.phone;
+  },
+};

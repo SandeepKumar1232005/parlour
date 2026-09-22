@@ -3,7 +3,7 @@
  * Production-ready offline-first caching & resilient page persistence.
  */
 
-const CACHE_VERSION = "parlour-v2";
+const CACHE_VERSION = "parlour-v3";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
 

@@ -3,7 +3,7 @@
 import { Phone, MessageCircle } from "lucide-react";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/icons";
 import { 
-  hasSocial, 
+  socialLinks,
   getInstagramLink, 
   getFacebookLink, 
   hasWhatsApp, 
@@ -14,9 +14,10 @@ import {
 import { cn } from "@/lib/utils";
 
 interface SocialIconProps {
-  href: string;
+  href?: string;
   icon: React.ElementType;
   label: string;
+  unconfiguredTooltip?: string;
   className?: string;
   isExternal?: boolean;
   variant?: "light" | "dark";
@@ -26,28 +27,54 @@ export function SocialIcon({
   href,
   icon: Icon,
   label,
+  unconfiguredTooltip,
   className,
   isExternal = true,
   variant = "light",
 }: SocialIconProps) {
-  const baseClasses =
-    "group flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne focus-visible:ring-offset-2 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0";
+  const isConfigured = Boolean(href && href.trim().length > 0 && href !== "#");
 
-  const variantClasses =
+  const baseClasses =
+    "group flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne focus-visible:ring-offset-2";
+
+  if (isConfigured && href) {
+    const activeClasses =
+      variant === "light"
+        ? "border-border bg-white text-text-muted hover:border-champagne hover:bg-champagne/10 hover:text-champagne-dark hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-white cursor-pointer"
+        : "border-white/10 bg-white/5 text-white/70 hover:border-champagne/50 hover:bg-champagne/20 hover:text-white hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:ring-offset-charcoal cursor-pointer";
+
+    return (
+      <a
+        href={href}
+        aria-label={label}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
+        className={cn(baseClasses, activeClasses, className)}
+      >
+        <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+      </a>
+    );
+  }
+
+  // Disabled / Unconfigured state — visibly rendered with muted styling and tooltip
+  const disabledClasses =
     variant === "light"
-      ? "border-border bg-white text-text-muted hover:border-champagne hover:bg-champagne/10 hover:text-champagne-dark focus-visible:ring-offset-white"
-      : "border-white/10 bg-white/5 text-white/70 hover:border-champagne/50 hover:bg-champagne/20 hover:text-white focus-visible:ring-offset-charcoal";
+      ? "border-border/60 bg-cream/40 text-text-muted/40 cursor-not-allowed opacity-60 focus-visible:ring-offset-white"
+      : "border-white/10 bg-white/[0.03] text-white/40 cursor-not-allowed opacity-60 hover:bg-white/[0.03] focus-visible:ring-offset-charcoal";
+
+  const disabledTitle = unconfiguredTooltip || `${label} link coming soon`;
+  const disabledAriaLabel = `${label} (link coming soon)`;
 
   return (
-    <a
-      href={href}
-      aria-label={label}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
-      className={cn(baseClasses, variantClasses, className)}
+    <button
+      type="button"
+      disabled
+      aria-label={disabledAriaLabel}
+      title={disabledTitle}
+      className={cn(baseClasses, disabledClasses, className)}
     >
-      <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-    </a>
+      <Icon className="h-5 w-5" />
+    </button>
   );
 }
 
@@ -62,55 +89,57 @@ export function SocialLinksGroup({
   iconClassName,
   variant = "light",
 }: SocialLinksGroupProps) {
+  // Pull from centralized configuration
+  const instagramUrl = socialLinks.instagram || getInstagramLink();
+  const facebookUrl = socialLinks.facebook || getFacebookLink();
+  const whatsAppUrl = hasWhatsApp() ? getWhatsAppLink("Hi, I would like to get in touch.") : "";
+  const phoneUrl = hasPhone() ? getPhoneLink() : "";
+
   return (
-    <div className={cn("flex flex-row items-center gap-3", className)}>
-      {/* 1. Instagram */}
-      {hasSocial("instagram") && (
-        <SocialIcon
-          href={getInstagramLink()}
-          icon={InstagramIcon}
-          label="Visit us on Instagram"
-          className={iconClassName}
-          isExternal={true}
-          variant={variant}
-        />
-      )}
+    <div className={cn("flex flex-row items-center gap-2.5 sm:gap-3 flex-nowrap", className)}>
+      {/* 1. Instagram — Always visibly rendered */}
+      <SocialIcon
+        href={instagramUrl}
+        icon={InstagramIcon}
+        label="Instagram"
+        unconfiguredTooltip="Instagram link coming soon"
+        className={iconClassName}
+        isExternal={true}
+        variant={variant}
+      />
 
-      {/* 2. Facebook */}
-      {hasSocial("facebook") && (
-        <SocialIcon
-          href={getFacebookLink()}
-          icon={FacebookIcon}
-          label="Visit us on Facebook"
-          className={iconClassName}
-          isExternal={true}
-          variant={variant}
-        />
-      )}
+      {/* 2. Facebook — Always visibly rendered */}
+      <SocialIcon
+        href={facebookUrl}
+        icon={FacebookIcon}
+        label="Facebook"
+        unconfiguredTooltip="Facebook link coming soon"
+        className={iconClassName}
+        isExternal={true}
+        variant={variant}
+      />
 
-      {/* 3. WhatsApp */}
-      {hasWhatsApp() && (
-        <SocialIcon
-          href={getWhatsAppLink("Hi, I would like to get in touch.")}
-          icon={MessageCircle}
-          label="Contact us on WhatsApp"
-          className={iconClassName}
-          isExternal={true}
-          variant={variant}
-        />
-      )}
+      {/* 3. WhatsApp — Always visibly rendered */}
+      <SocialIcon
+        href={whatsAppUrl}
+        icon={MessageCircle}
+        label="WhatsApp"
+        unconfiguredTooltip="WhatsApp link not configured"
+        className={iconClassName}
+        isExternal={true}
+        variant={variant}
+      />
 
-      {/* 4. Call */}
-      {hasPhone() && (
-        <SocialIcon
-          href={getPhoneLink()}
-          icon={Phone}
-          label="Call us"
-          className={iconClassName}
-          isExternal={false}
-          variant={variant}
-        />
-      )}
+      {/* 4. Call — Always visibly rendered */}
+      <SocialIcon
+        href={phoneUrl}
+        icon={Phone}
+        label="Call"
+        unconfiguredTooltip="Phone number not configured"
+        className={iconClassName}
+        isExternal={false}
+        variant={variant}
+      />
     </div>
   );
 }
