@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ChevronDown, MessageCircle, Calendar } from "lucide-react";
@@ -16,9 +17,49 @@ export function Hero() {
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
       aria-label="Welcome"
     >
-      {/* Background — a subtle gradient until real images are provided */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-charcoal-soft to-charcoal-muted" />
+      {/* Background */}
+      <div className="absolute inset-0 bg-charcoal">
+        {/* If no image config, this will act as fallback, but if we have images, we render them */}
+        {business.hero?.backgroundImage ? (
+          <>
+            {/* Desktop Image */}
+            <div className="hidden sm:block absolute inset-0">
+              <Image
+                src={business.hero.backgroundImage}
+                alt=""
+                fill
+                priority
+                className="object-cover object-[70%_center]"
+                sizes="100vw"
+                quality={90}
+              />
+            </div>
+            {/* Mobile Image */}
+            <div className="block sm:hidden absolute inset-0">
+              <Image
+                src={business.hero.mobileBackgroundImage || business.hero.backgroundImage}
+                alt=""
+                fill
+                priority
+                className="object-cover object-center"
+                sizes="100vw"
+                quality={90}
+              />
+            </div>
+          </>
+        ) : (
+          /* Fallback Gradient if no image config */
+          <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-charcoal-soft to-charcoal-muted" />
+        )}
+
+        {/* Dark Overlays for text readability (only show if image exists) */}
+        {business.hero?.backgroundImage && (
+          <>
+            <div className="absolute inset-0 bg-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/90 via-[#141414]/60 to-[#141414]/30" />
+          </>
+        )}
+
         {/* Decorative subtle pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"

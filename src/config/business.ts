@@ -16,6 +16,12 @@ export const business = {
     "Premium hair, skin, bridal and beauty experiences crafted by professionals.",
   shortDescription: "Professional beauty services in Coimbatore.",
 
+  // ─── Hero ────────────────────────────────────────────
+  hero: {
+    backgroundImage: "/images/hero/hero-desktop.jpg",
+    mobileBackgroundImage: "/images/hero/hero-mobile.jpg",
+  },
+
   // ─── Contact ─────────────────────────────────────────
   phone: "+919363499428", // e.g. "+919500000000"
   whatsapp: "919363499428", // e.g. "919500000000" (without +)
